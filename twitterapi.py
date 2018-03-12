@@ -22,8 +22,8 @@ from wpapi import init_wordpress_client
 CONFIG = {
     'host': 'localhost',
     'port': 3306,
-    'user': 'root',
-    'passwd': 'satsumacar*(%',
+    'user': 'user',
+    'passwd': 'password',
     'db': 'global_mil_infomation',
     'charset': 'utf8'
 }
