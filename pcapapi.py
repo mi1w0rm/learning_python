@@ -18,8 +18,7 @@ import matplotlib.pyplot as plt
 
 from networkx.algorithms.community import k_clique_communities
 
-
-PCAP_PATH = '/home/user/Data/Satellite/251_email/original/'
+PCAP_PATH = '/home/mi1w0rm/Data/251_email/original/'
 PCAP_FILE = '20180308_dump_file'
 
 HOST_LIST = []
@@ -33,7 +32,6 @@ TEMP_PATH = 'tmp'
 
 
 def draw_netwrok_graph():
-
     graph = nx.Graph()
 
     for node in HOST_LIST:
@@ -78,6 +76,9 @@ def handle_files_in_directory(dir_name):
 
         fullname = os.path.join(path, file_name)
 
+        print '=' * 78
+        print 'Handling File: [%s] .' % fullname
+
         # is file
         if os.path.isfile(fullname):
 
@@ -97,13 +98,30 @@ def handle_files_in_directory(dir_name):
                     tmp_full_name = os.path.join(tmp_path, tmp_file)
 
                     if os.path.isfile(tmp_full_name) and os.path.getsize(tmp_full_name) <= MAX_PCAP_FILE_SIZE:
-                        print '=' * 78
-                        print tmp_full_name
+                        print '\t\tHandling Splited File: [%s] .' % tmp_full_name
 
                         handle_pcap_file(tmp_full_name)
 
 
 def handle_pcap_file(file_name):
+    """
+    Handle the single pcap file and extract each packet info in it .
+    Each packet info of each protocol should be write into a data file.
+
+        IP:             From [Src_IP] to [Dst_IP]
+        GRE tunnel:     tunnel From [Src_IP] to [Dst_IP]
+        TCP:            From port:[Src_Port] to port:[Dst_Port]
+        HTTP Response:  HTTP Status-Line content
+
+    Args:
+        file_name: The full path of the pcap file
+
+    Returns:
+
+    Raises:
+
+    """
+
     packets = scapy.rdpcap(file_name)
 
     for p in packets:
@@ -180,31 +198,31 @@ def handle_pcap_file(file_name):
 if __name__ == '__main__':
     filename = PCAP_PATH + PCAP_FILE
 
-    handle_pcap_file('/home/user/Documents/satellite/dump/20180308_dump_file10')
+    # handle_pcap_file('/home/user/Documents/satellite/dump/20180308_dump_file10')
+    #
+    # draw_netwrok_graph()
 
-    draw_netwrok_graph()
+    CURRENT_WORK_PATH = os.getcwd()
 
-    # CURRENT_WORK_PATH = os.getcwd()
-    #
-    # command = 'mkdir %s' % TEMP_PATH
-    #
-    # os.system(command)
-    #
-    # try:
-    #     handle_files_in_directory(PCAP_PATH)
-    #
-    # except:
-    #     print 'exception...'
-    #
-    # finally:
-    #     command = 'rm -r %s' % (CURRENT_WORK_PATH + '/tmp')
-    #     os.system(command)
-    #
-    #     print 'Host List: '
-    #     print HOST_LIST
-    #
-    #     print 'IP Src_Dst_dic:'
-    #     print SRC_DST_DIC
-    #
-    #     print 'Tunnel List:'
-    #     print TUNNEL_LIST
+    command = 'mkdir %s' % TEMP_PATH
+
+    os.system(command)
+
+    try:
+        handle_files_in_directory(PCAP_PATH)
+
+    except:
+        print 'exception...'
+
+    finally:
+        command = 'rm -r %s' % (CURRENT_WORK_PATH + '/tmp')
+        os.system(command)
+
+        print 'Host List: '
+        print HOST_LIST
+
+        print 'IP Src_Dst_dic:'
+        print SRC_DST_DIC
+
+        print 'Tunnel List:'
+        print TUNNEL_LIST
