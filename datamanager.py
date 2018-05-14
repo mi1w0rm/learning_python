@@ -5,9 +5,8 @@ import MySQLdb as mdb
 CONFIG = {
     'host': 'localhost',
     'port': 3306,
-    'user': 'root',
-    'passwd': 'satsumacar*(%',
-    # 'db': 'Afghanistan_Intelligence',
+    'user': ,
+    'passwd': ,    
     'charset': 'utf8'
 }
 
