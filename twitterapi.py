@@ -22,8 +22,8 @@ from wpapi import init_wordpress_client
 CONFIG = {
     'host': 'localhost',
     'port': 3306,
-    'user': 'user',
-    'passwd': 'password',
+    'user': 'root',
+    'passwd': 'satsumacar*(%',
     'db': 'global_mil_infomation',
     'charset': 'utf8'
 }
@@ -389,7 +389,7 @@ def get_oldest_status_id_by_user(screen_name, cursor):
     return oldest_status_id
 
 
-def post_aviation_intelligence(cursor, wpinstance, screen_name='', count=100):
+def post_aviation_intelligence(cursor, wpinstance, screen_name='', count=10000):
     sql = "SELECT * FROM global_mil_infomation.status_media_view " \
           "WHERE s_twitter_user_name = '%s' " \
           "ORDER BY s_status_id DESC LIMIT %d" % (screen_name, count)
@@ -416,7 +416,7 @@ def post_aviation_intelligence(cursor, wpinstance, screen_name='', count=100):
 
     except mdb.OperationalError as mdbe:
 
-        print('--------[%s] mdb.OperationalError, and message is %s......' % (screen_name, mdbe))
+        print('--------[%s:%s] mdb.OperationalError, and message is %s......' % (screen_name, post_id, mdbe))
 
 
 def main():
@@ -428,11 +428,11 @@ def main():
         conn.autocommit(True)  # conn.autocommit(True)
         cursor = conn.cursor()
 
-    wp = init_wordpress_client()
+    # wp = init_wordpress_client()
+    #
+    # post_aviation_intelligence(cursor, wp, screen_name)
 
-    post_aviation_intelligence(cursor, wp, screen_name, 100)
-
-    # get_latest_tweets_by_user(screen_name, cursor, maxid=0, sinceid=966116467753197571)
+    get_latest_tweets_by_user(screen_name, cursor, maxid=0, sinceid=993863301422501888)
 
     # while 1:
     #
