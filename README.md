@@ -3,3 +3,5 @@
 	proxygetter.py 	Something has not offically started yet. ^_^
 	twitterapi.py 	Handle the twitter website to get some people's follow and following, with simpletwitter module. The result is stored in MySQL db.
 	wpapi.py        Use the twitter post info to generate a wordpress post automatically.
+	datamanager.py  A MySQL Utility file
+	rsscollector.py A news collector from multiple news website. The voachinese 's rss feed just is added, by now.
